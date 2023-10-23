@@ -4,25 +4,56 @@ import algoritmo.ProgramaLadrao;
 
 public class Ladrao extends ProgramaLadrao {
 
-	
+	boolean bucarSeguir = true;
+
+////////////////////////////////////////////////////////
+//açoes no modo de busca
+	public int buscaa (){
+
+		return (int) (Math.random() * 5);
+	}
+
+
+///////////////////////////////////////////////////////////////////////////
+
+
+	public int seguindo (int []visao, int [] oufato){
+
+
+
+		return (int) (Math.random() * 5);
+	}
+
+////////////////////////////////////////////////////////////////////
+
+
+	public void mudaestado (int []visao){
+		for (int i = 0; i < visao.length; i++) {
+			if (sensor.getVisaoIdentificacao()[i]==100){
+				bucarSeguir = false;
+				System.out.println("Estado mudado");
+				break;
+			}
+		}
+	}
+
 
 	public int acao() {
 
-		System.out.println("inicio");
-		for (int i = 0; i < sensor.getVisaoIdentificacao().length; i++) {
-			System.out.print(sensor.getVisaoIdentificacao()[i]);
 
-			if ((i + 1) % 5 == 0) {
-				System.out.println();
-			}
+		if (bucarSeguir){
+			mudaestado(sensor.getVisaoIdentificacao());
 		}
 
-		System.out.println();
-		System.out.println();
-		System.out.println("fim");
-		System.out.println(sensor.getPosicao());
 
-		return (int) (Math.random() * 5);
+
+
+
+		if (bucarSeguir){
+			return buscaa();
+		}else {
+			return seguindo(sensor.getVisaoIdentificacao(),sensor.getAmbienteOlfatoLadrao());
+		}
 	}
 
 }
