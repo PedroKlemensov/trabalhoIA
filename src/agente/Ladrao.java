@@ -14,7 +14,8 @@ public class Ladrao extends ProgramaLadrao {
 	}
 
 
-///////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+	//mudar essa rra toda kjffjvsnvjsjr
 
 
 	public int seguindo (int []visao, int [] oufato){
@@ -75,7 +76,15 @@ public class Ladrao extends ProgramaLadrao {
 			mudaestado(sensor.getVisaoIdentificacao());
 		}
 
+		for (int i = 0; i < sensor.getVisaoIdentificacao().length; i++) {
+			System.out.print(sensor.getVisaoIdentificacao()[i]);
 
+			
+		}
+
+		System.out.println();
+		System.out.println();
+		System.out.println("fim");
 
 
 
