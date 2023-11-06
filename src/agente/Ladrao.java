@@ -2,88 +2,108 @@ package agente;
 
 import algoritmo.ProgramaLadrao;
 
+import java.util.Random;
+
 public class Ladrao extends ProgramaLadrao {
 
 	// valores
-	int semVisaoPeso = -5;
-	int foraPeso =-4;
-	int peredePeso =-3;
-	int nadaPeso= 0;
-	int moedaPeso = 1;
-	int bancoPeso = 2;
-	int pastilhaPeso= 2;
-	int popadorPeso = 40;
-	int ladaoPeso =2;
+	int semVisaoPeso = 1;
+	int foraPeso =1;
+	int peredePeso =1;
+	int nadaPeso= 10;
+	int moedaPeso = 5;
+	int bancoPeso = 6;
+	int pastilhaPeso= 5;
+	int popadorPeso = 500;
+	int ladaoPeso =50;
 
 
 
 
 
 	public int [] getvisaotopo (int [] visao){
-		int[] visto = new int[]{visao[7], visao[1], visao[2], visao[3], visao[4], visao[5], visao[6], visao[0], visao[8], visao[9]};
-		return visto;
+        return new int[]{visao[7], visao[1], visao[2], visao[3], visao[4], visao[5], visao[6], visao[0], visao[8], visao[9]};
 	}
 
 	public int [] getvisaobaixo (int [] visao){
-		int[] visto = new int[]{visao[16], visao[15], visao[14], visao[17], visao[18], visao[19], visao[20], visao[21], visao[22], visao[23]};
-		return visto;
+        return new int[]{visao[16], visao[15], visao[14], visao[17], visao[18], visao[19], visao[20], visao[21], visao[22], visao[23]};
 	}
 
 	public int [] getvisaoesquerda (int [] visao){
-		int[] visto = new int[]{visao[11], visao[1], visao[5], visao[6], visao[10], visao[0], visao[14], visao[15], visao[19], visao[20]};
-		return visto;
+        return new int[]{visao[11], visao[1], visao[5], visao[6], visao[10], visao[0], visao[14], visao[15], visao[19], visao[20]};
 	}
 
 	public int [] getvisaodireita (int [] visao){
-		int[] visto = new int[]{visao[12], visao[4], visao[8], visao[9], visao[3], visao[13], visao[17], visao[18], visao[22], visao[23]};
-		return visto;
+        return new int[]{visao[12], visao[4], visao[8], visao[9], visao[3], visao[13], visao[17], visao[18], visao[22], visao[23]};
 	}
 
 	public int somagem (int [] visto){
-		int [] pesado = new int[visto.length];
 		int peso = 0;
 
-		for (int i=0;i<visto.length;i++){
-			if (visto[i]== -2){
-				pesado [i]= semVisaoPeso;
+		if (visto[0]== 0){
+			for (int i = 0; i < visto.length; i++) {
+				if (visto[i] == -2) {
+					peso = peso + semVisaoPeso;
+				}
+				if (visto[i] == -2) {
+					peso = peso + foraPeso;
+				}
+				if (visto[i] == 0) {
+					peso = peso + nadaPeso;
+				}
+				if (visto[i] == 1) {
+					peso = peso + peredePeso;
+				}
+				if (visto[i] == 3) {
+					peso = peso + bancoPeso;
+				}
+				if (visto[i] == 4) {
+					peso = peso + moedaPeso;
+				}
+				if (visto[i] == 5) {
+					peso = peso + pastilhaPeso;
+				}
+				if (visto[i] >= 100 && visto[i] < 200) {
+					peso = peso + popadorPeso;
+				}
+				if (visto[i] >= 200) {
+					peso = peso + ladaoPeso;
+				}
 			}
-			if (visto[i]== -2){
-				pesado [i]=foraPeso;
-			}
-			if (visto[i]== 0){
-				pesado [i]=nadaPeso;
-			}
-			if (visto[i]== 1){
-				pesado [i]=peredePeso;
-			}
-			if (visto[i]== 3){
-				pesado [i]=bancoPeso;
-			}
-			if (visto[i]== 4){
-				pesado [i]=moedaPeso;
-			}
-			if (visto[i]== 5){
-				pesado [i]=pastilhaPeso;
-			}
-			if (visto[i] >= 100 && visto[i] < 200){
-				pesado [i]=popadorPeso;
-			}
-			if (visto[i]>= 200){
-				pesado [i]=ladaoPeso;
-			}
-
 
 
 		}
 
-		for (int i=0;i<pesado.length;i++){
 
-			peso = peso + pesado[i];
-		}
 
 		return peso;
 	}
 
+
+
+	public static int selectRandomIndex(int[] weights) {
+		Random random = new Random();
+		int totalWeight = 0;
+
+		// Calcula o peso total
+		for (int weight : weights) {
+			totalWeight += weight;
+		}
+
+		// Gera um número aleatório entre 0 e o peso total
+		int randomValue = random.nextInt(totalWeight);
+
+		// Percorre o vetor e escolhe a posição com base no peso
+		for (int i = 0; i < weights.length; i++) {
+			randomValue -= weights[i];
+			if (randomValue <= 0) {
+				return i;
+			}
+		}
+
+		// Em caso de erro, retorne -1 ou outro valor adequado
+		return 0;
+	}
 
 
 	public int acao() {
@@ -93,7 +113,7 @@ public class Ladrao extends ProgramaLadrao {
 		int [] pesos = new int[5];
 
 
-		pesos[0]= -500;
+		pesos[0]= 0;
 		pesos[1]= somagem(getvisaotopo(visao));
 		pesos[2]= somagem(getvisaobaixo(visao));
 		pesos[3]= somagem(getvisaodireita(visao));
@@ -110,7 +130,7 @@ public class Ladrao extends ProgramaLadrao {
 		}
 		System.out.println(pesos[1]+" "+pesos[2]+" "+pesos[3]+" "+pesos[4]+ "maior :"+ maiorPosicao);
 
-		return maiorPosicao;
+		return selectRandomIndex(pesos);
 	}
 
 }
