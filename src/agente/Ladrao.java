@@ -4,95 +4,113 @@ import algoritmo.ProgramaLadrao;
 
 public class Ladrao extends ProgramaLadrao {
 
-	boolean bucarSeguir = true;
+	// valores
+	int semVisaoPeso = -5;
+	int foraPeso =-3;
+	int peredePeso =1;
+	int nadaPeso= 0;
+	int moedaPeso = 1;
+	int bancoPeso = 3;
+	int pastilhaPeso= 3;
+	int popadorPeso = 40;
+	int ladaoPeso =2;
 
-////////////////////////////////////////////////////////
-//açoes no modo de busca
-	public int buscaa (){
 
-		return (int) (Math.random() * 5);
+
+
+
+	public int [] getvisaotopo (int [] visao){
+		int[] visto = new int[]{visao[7], visao[1], visao[2], visao[3], visao[4], visao[5], visao[6], visao[0], visao[8], visao[9]};
+		return visto;
 	}
 
-
-///////////////////////////////////////////////////////////////////////////////
-	//mudar essa rra toda kjffjvsnvjsjr
-
-
-	public int seguindo (int []visao, int [] oufato){
-		int index= posicaoP(visao);
-		int cima = 7-index;
-		int esquerda = 11-index;
-		int direita = 12-index;
-		int baixo = 16-index;
-
-		//ta travando na esquerda
-
-		if(cima > esquerda && cima > direita && cima> baixo){
-			return 1;
-		} else if (esquerda > cima && esquerda > direita && esquerda> baixo) {
-			return 2;
-		} else if (baixo > esquerda && baixo > cima && baixo> cima) {
-			return 3;
-		} else if (direita > esquerda && direita > cima && direita> baixo) {
-			return 4;
-		}
-
-
-
-
-		return (int) (Math.random() * 5);
+	public int [] getvisaobaixo (int [] visao){
+		int[] visto = new int[]{visao[16], visao[15], visao[14], visao[17], visao[18], visao[19], visao[20], visao[21], visao[22], visao[23]};
+		return visto;
 	}
 
-	public int posicaoP (int []visao){
-		int valor = -1;
-		for (int i = 0; i<visao.length;i++){
-			if (visao[i] >= 100 && visao[i] < 200){
-				valor = i;
-				break;
+	public int [] getvisaoesquerda (int [] visao){
+		int[] visto = new int[]{visao[11], visao[1], visao[5], visao[6], visao[10], visao[0], visao[14], visao[15], visao[19], visao[20]};
+		return visto;
+	}
+
+	public int [] getvisaodireita (int [] visao){
+		int[] visto = new int[]{visao[12], visao[4], visao[8], visao[9], visao[3], visao[13], visao[17], visao[18], visao[22], visao[23]};
+		return visto;
+	}
+
+	public int somagem (int [] visto){
+		int [] pesado = new int[visto.length];
+		int peso = 0;
+
+		for (int i=0;i<visto.length;i++){
+			if (visto[i]== -2){
+				pesado [i]= semVisaoPeso;
 			}
-		}
-
-        return valor;
-    }
-
-////////////////////////////////////////////////////////////////////
-
-
-	public void mudaestado (int []visao){
-		for (int i = 0; i < visao.length; i++) {
-			if (visao[i] >= 100 && visao[i] < 200){
-				bucarSeguir = false;
-				System.out.println("Estado mudado");
-				break;
+			if (visto[i]== -2){
+				pesado [i]=foraPeso;
 			}
+			if (visto[i]== 0){
+				pesado [i]=nadaPeso;
+			}
+			if (visto[i]== 1){
+				pesado [i]=peredePeso;
+			}
+			if (visto[i]== 3){
+				pesado [i]=bancoPeso;
+			}
+			if (visto[i]== 4){
+				pesado [i]=moedaPeso;
+			}
+			if (visto[i]== 5){
+				pesado [i]=pastilhaPeso;
+			}
+			if (visto[i] >= 100 && visto[i] < 200){
+				pesado [i]=popadorPeso;
+			}
+			if (visto[i]>= 200){
+				pesado [i]=ladaoPeso;
+			}
+
+
+
 		}
+
+		for (int i=0;i<pesado.length;i++){
+
+			peso = peso + pesado[i];
+		}
+
+		return peso;
 	}
+
 
 
 	public int acao() {
 
+		int [] visao = sensor.getVisaoIdentificacao();
 
-		if (bucarSeguir){
-			mudaestado(sensor.getVisaoIdentificacao());
+		int [] pesos = new int[5];
+
+
+		pesos[0]= 0;
+		pesos[1]= somagem(getvisaotopo(visao));
+		pesos[2]= somagem(getvisaobaixo(visao));
+		pesos[3]= somagem(getvisaodireita(visao));
+		pesos[4]= somagem(getvisaoesquerda(visao));
+
+		int maiorValor = pesos[0];
+		int maiorPosicao = 0;
+
+		for (int i = 1; i < pesos.length; i++) {
+			if (pesos[i] > maiorValor) {
+				maiorValor = pesos[i];
+				maiorPosicao = i;
+			}
 		}
+		System.out.println(pesos[1]+" "+pesos[2]+" "+pesos[3]+" "+pesos[4]+ "maior :"+ maiorPosicao);
 
-		for (int i = 0; i < sensor.getVisaoIdentificacao().length; i++) {
-			System.out.print(sensor.getVisaoIdentificacao()[i]);
-
-			
-		}
-
-		System.out.println();
-		System.out.println();
-		System.out.println("fim");
-
-
-
-		if (bucarSeguir){
-			return buscaa();
-		}else {
-			return seguindo(sensor.getVisaoIdentificacao(),sensor.getAmbienteOlfatoLadrao());
-		}
+		return maiorPosicao;
 	}
 
 }
