@@ -91,18 +91,23 @@ public class Ladrao extends ProgramaLadrao {
 		}
 
 		// Gera um número aleatório entre 0 e o peso total
-		int randomValue = random.nextInt(totalWeight);
+		if(totalWeight != 0){
+			int randomValue = random.nextInt(totalWeight);
 
-		// Percorre o vetor e escolhe a posição com base no peso
-		for (int i = 0; i < weights.length; i++) {
-			randomValue -= weights[i];
-			if (randomValue <= 0) {
-				return i;
+			// Percorre o vetor e escolhe a posição com base no peso
+			for (int i = 0; i < weights.length; i++) {
+				randomValue -= weights[i];
+				if (randomValue <= 0) {
+					return i;
+				}
+
 			}
+		}else {
+			return (int) (Math.random() * 5);
 		}
 
 		// Em caso de erro, retorne -1 ou outro valor adequado
-		return 0;
+		return (int) (Math.random() * 5);
 	}
 
 
