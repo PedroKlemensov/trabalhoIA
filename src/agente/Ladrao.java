@@ -10,12 +10,12 @@ public class Ladrao extends ProgramaLadrao {
 	int semVisaoPeso = 1;
 	int foraPeso =1;
 	int peredePeso =1;
-	int nadaPeso= 10;
+	int nadaPeso= 20;
 	int moedaPeso = 5;
 	int bancoPeso = 6;
 	int pastilhaPeso= 5;
-	int popadorPeso = 500;
-	int ladaoPeso =50;
+	int popadorPeso = 600;
+	int ladaoPeso =20;
 
 
 
@@ -123,6 +123,7 @@ public class Ladrao extends ProgramaLadrao {
 		pesos[2]= somagem(getvisaobaixo(visao));
 		pesos[3]= somagem(getvisaodireita(visao));
 		pesos[4]= somagem(getvisaoesquerda(visao));
+
 
 		int maiorValor = pesos[0];
 		int maiorPosicao = 0;
