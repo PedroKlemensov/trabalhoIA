@@ -14,7 +14,7 @@ public class Ladrao extends ProgramaLadrao {
 	int moedaPeso = 5;
 	int bancoPeso = 6;
 	int pastilhaPeso= 5;
-	int popadorPeso = 600;
+	int popadorPeso = 1000;
 	int ladaoPeso =20;
 
 
@@ -36,6 +36,23 @@ public class Ladrao extends ProgramaLadrao {
 	public int [] getvisaodireita (int [] visao){
         return new int[]{visao[12], visao[4], visao[8], visao[9], visao[3], visao[13], visao[17], visao[18], visao[22], visao[23]};
 	}
+
+	public int [] getoufatotopo (int [] visao){
+		return new int[]{visao[0], visao[1], visao[3]};
+	}
+
+	public int [] getufatobaixo (int [] visao){
+		return new int[]{visao[5], visao[6], visao[7]};
+	}
+
+	public int [] getufatoquerda (int [] visao){
+		return new int[]{visao[2], visao[4], visao[7]};
+	}
+
+	public int [] getufatodireita (int [] visao){
+		return new int[]{visao[0], visao[1], visao[3]};
+	}
+
 
 	public int somagem (int [] visto){
 		int peso = 0;
@@ -81,20 +98,23 @@ public class Ladrao extends ProgramaLadrao {
 
 
 
-	public static int selectRandomIndex(int[] weights) {
+	public static int selectRandomIndex(int[] weights,int popadorPeso) {
+		for (int i = 0;i>weights.length;i++){
+			if (weights[i]== popadorPeso){
+				return i;
+			}
+		}
+
 		Random random = new Random();
 		int totalWeight = 0;
 
-		// Calcula o peso total
 		for (int weight : weights) {
 			totalWeight += weight;
 		}
 
-		// Gera um número aleatório entre 0 e o peso total
 		if(totalWeight != 0){
 			int randomValue = random.nextInt(totalWeight);
 
-			// Percorre o vetor e escolhe a posição com base no peso
 			for (int i = 0; i < weights.length; i++) {
 				randomValue -= weights[i];
 				if (randomValue <= 0) {
@@ -102,13 +122,12 @@ public class Ladrao extends ProgramaLadrao {
 				}
 
 			}
-		}else {
-			return (int) (Math.random() * 5);
 		}
 
-		// Em caso de erro, retorne -1 ou outro valor adequado
 		return (int) (Math.random() * 5);
 	}
+
+
 
 
 	public int acao() {
@@ -125,18 +144,15 @@ public class Ladrao extends ProgramaLadrao {
 		pesos[4]= somagem(getvisaoesquerda(visao));
 
 
+
+
 		int maiorValor = pesos[0];
 		int maiorPosicao = 0;
 
-		for (int i = 1; i < pesos.length; i++) {
-			if (pesos[i] > maiorValor) {
-				maiorValor = pesos[i];
-				maiorPosicao = i;
-			}
-		}
+
 		System.out.println(pesos[1]+" "+pesos[2]+" "+pesos[3]+" "+pesos[4]+ "maior :"+ maiorPosicao);
 
-		return selectRandomIndex(pesos);
+		return selectRandomIndex(pesos,popadorPeso);
 	}
 
 }
