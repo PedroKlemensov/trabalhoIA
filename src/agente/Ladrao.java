@@ -11,11 +11,11 @@ public class Ladrao extends ProgramaLadrao {
 	int foraPeso =1;
 	int peredePeso =1;
 	int nadaPeso= 20;
-	int moedaPeso = 5;
+	int moedaPeso = 3;
 	int bancoPeso = 6;
 	int pastilhaPeso= 5;
 	int popadorPeso = 1000;
-	int ladaoPeso =20;
+	int ladaoPeso =5;
 
 
 
@@ -57,7 +57,7 @@ public class Ladrao extends ProgramaLadrao {
 	public int somagem (int [] visto){
 		int peso = 0;
 
-		if (visto[0]== 0){
+		if (visto[0] == 0 || (visto[0] > 100 && visto[0] < 200)) {
 			for (int i = 0; i < visto.length; i++) {
 				if (visto[i] == -2) {
 					peso = peso + semVisaoPeso;
@@ -150,7 +150,6 @@ public class Ladrao extends ProgramaLadrao {
 		int maiorPosicao = 0;
 
 
-		System.out.println(pesos[1]+" "+pesos[2]+" "+pesos[3]+" "+pesos[4]+ "maior :"+ maiorPosicao);
 
 		return selectRandomIndex(pesos,popadorPeso);
 	}
